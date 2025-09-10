@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ainur Rofik | Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    .hidden { display: none; }
+    .active-tab { border-color: black; color: #4a5568; }
+
+    /* Hilangkan scrollbar untuk Webkit (Chrome, Safari, Edge modern) */
+    body::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Animasi untuk putaran seperti koin */
+    .profile-pic {
+      transition: transform 0.6s ease;
+      transform-origin: center;
+    }
+
+    .profile-pic:hover {
+      transform: rotateY(360deg);
+    }
+
+    /* Animasi Loading */
+    @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+      }
+    }
+
+    .animate-bounce {
+      animation: bounce 0.8s infinite;
+    }
+
+    .animate-bounce.delay-200 {
+      animation-delay: 0.2s;
+    }
+
+    .animate-bounce.delay-400 {
+      animation-delay: 0.4s;
+    }
+
+    /* PROFILE STYLE */
+    @keyframes gradientWave {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .gradient-bg {
+      background: linear-gradient(-45deg, #1E201E, #2A2C2A, #3A3D3A);
+      background-size: 400% 400%;
+      animation: gradientWave 15s ease infinite;
+    }
+
+    .card-hover {
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .skill-bar {
+      height: 4px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .skill-progress {
+      height: 100%;
+      background: linear-gradient(90deg, #4F46E5 0%, #EC4899 100%);
+      transition: width 0.5s ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-[#1E201E] text-white min-h-screen">
+  <!-- Floating Navigation -->
+  <nav class="bg-[#1E201E] border-t border-[#1E201E] sticky top-0 z-10">
+    <div class="container mx-auto px-4">
+      <div class="flex justify-center space-x-8 py-4">
+        <button onclick="showTab('profile')" class="tab-link py-4 w-full hover:text-gray-400 border-b-2 border-transparent focus:border-white transition">
+          <i class="fas fa-user mr-2"></i>Profile
+        </button>
+        <button onclick="showTab('post')" class="tab-link py-4 w-full hover:text-gray-400 border-b-2 border-transparent focus:border-white transition">
+          <i class="fas fa-image mr-2"></i>Post
+        </button>
+        <button onclick="showTab('project')" class="tab-link py-4 w-full hover:text-gray-400 border-b-2 border-transparent focus:border-white transition">
+          <i class="fas fa-code mr-2"></i>Projects
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content Sections -->
+  <section id="content" class="container mx-auto px-4 py-6">
+        <!-- Profile Section -->
+    <div id="profile" class="tab-content">
+        <div class="flex flex-col lg:flex-row items-center gap-8">
+        <!-- Profile Card -->
+        <div class="w-full lg:w-1/3 relative group">
+            <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 blur-2xl opacity-30 group-hover:opacity-50 transition-opacity"></div>
+            <div class="relative bg-black/30 rounded-2xl p-8 backdrop-blur-xl border border-white/10 card-hover">
+            <img src="https://github.com/MuhammadAinurRofik/myGambar/blob/main/IMG_20231229_213237_174.jpg?raw=true" 
+                alt="Profile Picture"
+                class="w-48 h-48 rounded-full mx-auto mb-6 border-4 border-white/20 hover:border-purple-500 transition-all profile-pic">
+            
+            <h1 class="text-3xl font-bold text-center mb-2">Muhammad Ainur Rofik</h1>
+            <p class="text-center text-gray-300 mb-6">Frontend Developer & UI Designer</p>
+            
+            <div class="flex justify-center space-x-4">
+                <a href="https://github.com" target="_blank" class="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-all">
+                <i class="fab fa-github text-xl"></i>
+                </a>
+                <a href="https://linkedin.com" target="_blank" class="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-all">
+                <i class="fab fa-linkedin text-xl"></i>
+                </a>
+                <a href="https://instagram.com" target="_blank" class="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-all">
+                <i class="fab fa-instagram text-xl"></i>
+                </a>
+            </div>
+            </div>
+        </div>
+
+        <!-- About Section -->
+        <div class="w-full lg:w-2/3 space-y-8">
+            <!-- Bio Card -->
+            <div class="bg-black/30 rounded-2xl p-8 backdrop-blur-xl border border-white/10 card-hover">
+                <h2 class="text-2xl font-bold mb-4 flex items-center">
+                <span class="bg-gradient-to-r from-purple-500 to-pink-500 text-transparent bg-clip-text">About Me</span>
+                <div class="ml-auto flex space-x-2">
+                    <button onclick="openNoteModal()" class="p-2 hover:bg-white/10 rounded-lg transition-all">
+                    <i class="fas fa-paper-plane"></i>
+                    </button>
+                    <button onclick="showCodeModal()" class="p-2 hover:bg-white/10 rounded-lg transition-all">
+                    <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                </h2>
+            
+                <!-- Bio Description -->
+                <p id="bioText" class="text-gray-300 leading-relaxed inline">
+                    Saya adalah seorang mahasiswa dari Program Studi Manajemen Informatika di Universitas Negeri Surabaya yang memiliki kemampuan dasar dalam HTML, CSS, JavaScript. Selain itu, saya juga memiliki pengetahuan dasar tentang framework Laravel dan Bootstrap. Saya memiliki kemampuan beradaptasi dengan situasi baru dan senang berinteraksi dengan orang lain. Saya memiliki keinginan kuat untuk terus belajar lebih banyak. Ketertarikan saya terutama terfokus pada perkembangan teknologi terbaru, khususnya dalam aspek front end web development dan desain antarmuka pengguna (UI/UX).
+                    <button id="toggleButton" onclick="toggleBio()" class="text-blue-400 hover:underline inline ml-1">
+                      Lihat Selengkapnya
+                    </button>
+                </p>
+            </div>
+
+            <!-- Skills Grid -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <!-- skill 1 -->
+            <div class="bg-black/30 p-4 rounded-xl border border-white/10 card-hover">
+                <div class="flex items-center mb-2">
+                <i class="fab fa-html5 text-purple-500 mr-2"></i>
+                <span class="font-semibold">HTML</span>
+                </div>
+                <div class="skill-bar">
+                <div class="skill-progress" style="width: 90%"></div>
+                </div>
+            </div>
+            <!-- skill 2 -->
+            <div class="bg-black/30 p-4 rounded-xl border border-white/10 card-hover">
+                <div class="flex items-center mb-2">
+                <i class="fab fa-css3-alt text-purple-500 mr-2"></i>
+                <span class="font-semibold">CSS</span>
+                </div>
+                <div class="skill-bar">
+                <div class="skill-progress" style="width: 90%"></div>
+                </div>
+            </div>
+            <!-- skill 3 -->
+            <div class="bg-black/30 p-4 rounded-xl border border-white/10 card-hover">
+                <div class="flex items-center mb-2">
+                <i class="fab fa-laravel text-purple-500 mr-2"></i>
+                <span class="font-semibold">LARAVEL</span>
+                </div>
+                <div class="skill-bar">
+                <div class="skill-progress" style="width: 40%"></div>
+                </div>
+            </div>
+            <!-- skill 4 -->
+            <div class="bg-black/30 p-4 rounded-xl border border-white/10 card-hover">
+                <div class="flex items-center mb-2">
+                <i class="fab fa-php text-purple-500 mr-2"></i>
+                <span class="font-semibold">PHP</span>
+                </div>
+                <div class="skill-bar">
+                <div class="skill-progress" style="width: 30%"></div>
+                </div>
+            </div>
+            <!-- skill 5 -->
+            <div class="bg-black/30 p-4 rounded-xl border border-white/10 card-hover">
+                <div class="flex items-center mb-2">
+                <i class="fab fa-js-square text-purple-500 mr-2"></i>
+                <span class="font-semibold">JavaScript</span>
+                </div>
+                <div class="skill-bar">
+                <div class="skill-progress" style="width: 30%"></div>
+                </div>
+            </div>
+            
+            </div>
+        </div>
+        </div>
+
+        <!-- Certifications Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
+        <!-- Certifications 1 -->
+        <div class="bg-black/30 rounded-2xl overflow-hidden border border-white/10 card-hover">
+            <img src="https://github.com/MuhammadAinurRofik/myGambar/blob/main/certificate-linux.png?raw=true" 
+                alt="Certification"
+                class="w-full h-42 object-cover">
+            <div class="p-6">
+            <h3 class="text-xl font-semibold mb-2">Linux System Administration</h3>
+            <div class="flex items-center text-gray-400">
+                <i class="fas fa-calendar-alt mr-2"></i>
+                <span>2024</span>
+            </div>
+            </div>
+        </div>
+        <!-- Certifications 2 -->
+        <div class="bg-black/30 rounded-2xl overflow-hidden border border-white/10 card-hover">
+            <img src="https://github.com/MuhammadAinurRofik/myGambar/blob/main/certificate-docker.png?raw=true" 
+                alt="Certification"
+                class="w-full h-42 object-cover">
+            <div class="p-6">
+            <h3 class="text-xl font-semibold mb-2">Docker Fundamental</h3>
+            <div class="flex items-center text-gray-400">
+                <i class="fas fa-calendar-alt mr-2"></i>
+                <span>2024</span>
+            </div>
+            </div>
+        </div>
+        <!-- Certifications 3 -->
+        <div class="bg-black/30 rounded-2xl overflow-hidden border border-white/10 card-hover">
+            <img src="https://github.com/MuhammadAinurRofik/myGambar/blob/main/CamScanner%2023-01-2025%2020.42.jpg?raw=true" 
+                alt="Certification"
+                class="w-full h-42 object-cover">
+            <div class="p-6">
+            <h3 class="text-xl font-semibold mb-2">Magang PT Radnet Digital Indonesia</h3>
+            <div class="flex items-center text-gray-400">
+                <i class="fas fa-calendar-alt mr-2"></i>
+                <span>2025</span>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Bagian Post dan Project tetap dengan gaya yang konsisten -->
+    <!-- Post Content -->
+    <div id="post" class="tab-content hidden">
+        <h3 class="text-2xl font-bold mb-4 text-center">My Posts</h3>
+        <div class="grid grid-cols-3 gap-4">
+        <!-- Gambar akan dimuat di sini secara dinamis -->
+        </div>
+    </div>
+
+    <!-- Project Content -->
+    <div id="project" class="tab-content hidden">
+        <h3 class="text-2xl font-bold mb-4 text-center">My Projects</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Project 1: LilBaby E-commerce -->
+            <div class="p-4 bg-white rounded-lg shadow-lg transform hover:scale-105 transition duration-300">
+                <div class="relative">
+                <img src="https://github.com/MuhammadAinurRofik/myGambar/blob/main/home1.png?raw=true" alt="LilBaby Umkm" class="rounded-lg w-full h-48 object-cover mb-4">
+                <div class="absolute top-0 left-0 bg-[#1E201E] bg-opacity-50 text-white py-2 px-4 rounded-lg text-xl">LilBaby UMKM</div>
+                </div>
+                <p class="text-[#1E201E]">An e-commerce website for selling baby products with various features, including product categories and shopping cart.</p>
+                <a href="https://lilbaby.my.id/" target="_blank" class="text-blue-600 hover:underline mt-4 block">View Project</a>
+            </div>
+            
+            <!-- Project 2: BG Game -->
+            <div class="p-4 bg-white rounded-lg shadow-lg transform hover:scale-105 transition duration-300">
+                <div class="relative">
+                <img src="https://github.com/MuhammadAinurRofik/myGambar/blob/main/Screenshot%20from%202025-01-22%2013-16-53.png?raw=true" alt="Sql Game" class="rounded-lg w-full h-48 object-cover mb-4">
+                <div class="absolute top-0 left-0 bg-[#1E201E] bg-opacity-50 text-white py-2 px-4 rounded-lg text-xl">SQL GAME</div>
+                </div>
+                <p class="text-[#1E201E]">A web-based game project featuring interactive gameplay.</p>
+                <a href="https://22091397005muhammadainurrofik.github.io/gameweb/bggame.html" target="_blank" class="text-blue-600 hover:underline mt-4 block">Play Game</a>
+            </div>
+            
+            <!-- Project 3: UMKM Furnitur -->
+            <div class="p-4 bg-white rounded-lg shadow-lg transform hover:scale-105 transition duration-300">
+                <div class="relative">
+                <img src="https://github.com/MuhammadAinurRofik/myGambar/blob/main/Screenshot%20from%202025-01-22%2013-15-26.png?raw=true" alt="UMKM Furnitur" class="rounded-lg w-full h-48 object-cover mb-4">
+                <div class="absolute top-0 left-0 bg-[#1E201E] bg-opacity-50 text-white py-2 px-4 rounded-lg text-xl">UMKM Furnitur</div>
+                </div>
+                <p class="text-[#1E201E]">An e-commerce website for selling Furniture products with various features, including product categories.</p>
+                <a href="https://www.ainurrofik.my.id/" target="_blank" class="text-blue-600 hover:underline mt-4 block">Visit Project</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal dan loading indicator tetap dengan animasi yang ditingkatkan -->
+    <!-- hidden fitur -->
+    <!-- Loading Indicator -->
+    <div id="loadingIndicator" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-30">
+        <div class="flex flex-col items-center">
+        <!-- Bouncing Dots -->
+        <div class="flex space-x-2 mb-4">
+            <div class="dot bg-white h-4 w-4 rounded-full animate-bounce"></div>
+            <div class="dot bg-white h-4 w-4 rounded-full animate-bounce delay-200"></div>
+            <div class="dot bg-white h-4 w-4 rounded-full animate-bounce delay-400"></div>
+        </div>
+        <p class="text-white text-lg">Memproses...</p>
+        </div>
+    </div>
+    
+
+    <!-- Modal Form -->
+    <div id="noteModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-20">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+        <h3 class="text-lg font-bold text-center mb-4 text-[#1E201E]">Kirim Catatan</h3>
+        <form id="noteForm">
+            <textarea 
+            id="noteInput" 
+            class="w-full h-32 border rounded-lg p-2 text-[#1E201E]" 
+            placeholder="Tulis catatan Anda di sini..." 
+            required></textarea>
+            <div class="mt-4 flex justify-between">
+            <button 
+                type="button" 
+                onclick="closeNoteModal()" 
+                class="border border-2 border-[#1E201E] text-[#1E201E] px-4 py-2 rounded-lg hover:bg-[#D8D8D8]">
+                Batal
+            </button>
+            <button 
+                type="submit" 
+                class="border border-2 border-[#1E201E] text-[#1E201E] px-4 py-2 rounded-lg hover:bg-[#D8D8D8]">
+                Kirim
+            </button>
+            </div>
+        </form>
+        </div>
+    </div>        
+    
+    <!-- Modal untuk Memasukkan Kode -->
+    <div id="codeModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-30">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+        <h3 class="text-lg font-bold text-center mb-4 text-[#1E201E]">Masukkan Kode Keamanan</h3>
+        <input id="securityCodeInput" type="password" placeholder="Masukkan kode di sini..." 
+            class="w-full text-[#1E201E] p-2 border rounded-lg mb-4" />
+        <div class="flex justify-between">
+            <button onclick="closeCodeModal()" class="bg-[#1E201E] text-white px-4 py-2 rounded-lg hover:text-[#D8D8D8]">
+            Batal
+            </button>
+            <button onclick="validateCode()" class="bg-[#1E201E] text-white px-4 py-2 rounded-lg hover:text-[#D8D8D8]">
+            Submit
+            </button>
+        </div>
+        </div>
+    </div>
+    
+    <!-- Modal untuk Menampilkan Notes -->
+    <div id="displayNotesModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-20">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl max-h-[80vh] overflow-y-auto">
+        <h3 class="text-lg font-bold text-center mb-4 text-[#1E201E]">Semua Catatan</h3>
+        <div id="notesContainer" class="grid grid-cols-1 gap-4">
+            <!-- Notes will be dynamically injected here -->
+        </div>
+        <div class="mt-4 text-center">
+            <button onclick="closeDisplayNotesModal()" class="border border-2 border-[#1E201E] text-[#1E201E] px-4 py-2 rounded-lg hover:bg-[#D8D8D8]">
+            Tutup
+            </button>
+        </div>
+        </div>
+    </div>
+  
+  </section>
+
+<script>
+    // lihat selengkapnya
+    let isExpanded = false;
+    const fullText = `Saya adalah seorang mahasiswa dari Program Studi Manajemen Informatika di Universitas Negeri Surabaya yang memiliki kemampuan dasar dalam HTML, CSS, JavaScript. Selain itu, saya juga memiliki pengetahuan dasar tentang framework Laravel dan Bootstrap. Saya memiliki kemampuan beradaptasi dengan situasi baru dan senang berinteraksi dengan orang lain. Saya memiliki keinginan kuat untuk terus belajar lebih banyak. Ketertarikan saya terutama terfokus pada perkembangan teknologi terbaru, khususnya dalam aspek front end web development dan desain antarmuka pengguna (UI/UX).`;
+    
+    const shortText = fullText.substring(0, 100) + '...';
+
+    document.getElementById("bioText").childNodes[0].nodeValue = shortText;
+
+    function toggleBio() {
+        const bioTextNode = document.getElementById("bioText").childNodes[0];
+        const toggleButton = document.getElementById("toggleButton");
+
+        if (isExpanded) {
+        bioTextNode.nodeValue = shortText;
+        toggleButton.innerText = "Lihat Selengkapnya";
+        } else {
+        bioTextNode.nodeValue = fullText;
+        toggleButton.innerText = "Perkecil";
+        }
+
+        isExpanded = !isExpanded;
+    }
+
+    function showTab(tabId) {
+      // Hide all tab contents
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+
+      // Remove active styling from all tabs
+      document.querySelectorAll('.tab-link').forEach(tab => tab.classList.remove('active-tab'));
+
+      // Show selected tab content and add active styling
+      document.getElementById(tabId).classList.remove('hidden');
+    }
+
+    // Set default tab
+    showTab('profile');
+
+    // github 
+    const repoUrl = 'https://api.github.com/repos/MuhammadAinurRofik/mypost/contents/images';
+    const postContainer = document.querySelector('#post .grid');
+
+    async function fetchImages() {
+        try {
+        const response = await fetch(repoUrl);
+        const data = await response.json();
+
+        // Filter file yang berformat gambar
+        const images = data.filter(item => item.name.match(/\.(jpg|jpeg|png|gif)$/i));
+
+        images.forEach(image => {
+            // Membuat elemen untuk setiap gambar
+            const imgElement = document.createElement('div');
+            imgElement.className = 'aspect-square bg-gray-300 rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:scale-105';
+            imgElement.innerHTML = `
+            <img src="${image.download_url}" alt="${image.name}" class="w-full h-full object-cover rounded-lg">
+            `;
+            postContainer.appendChild(imgElement);
+        });
+        } catch (error) {
+        console.error('Error fetching images:', error);
+        }
+    }
+
+    // Panggil fungsi fetchImages saat halaman dimuat
+    fetchImages();
+
+    // Loading
+    function showLoading() {
+    document.getElementById('loadingIndicator').classList.remove('hidden');
+    }
+
+    function hideLoading() {
+    document.getElementById('loadingIndicator').classList.add('hidden');
+    }
+
+    // form catatan
+    // Buka Modal
+    function openNoteModal() {
+    document.getElementById('noteModal').classList.remove('hidden');
+    }
+
+    // Tutup Modal
+    function closeNoteModal() {
+    document.getElementById('noteModal').classList.add('hidden');
+    }
+
+    // Proses Form
+    document.getElementById('noteForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const note = document.getElementById('noteInput').value;
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzXnQIvHVyPaBlgEufVX3TPqvVnpX8RBKAd8Y0ZQobn1m3b_CaHtXoGxyOrX7j1TjTi/exec';
+
+    try {
+        showLoading();
+        const response = await fetch(scriptURL, {
+        method: 'POST',
+        body: new URLSearchParams({ note }),
+        });
+
+        if (response.ok) {
+        closeNoteModal();
+        document.getElementById('noteForm').reset();
+        } else {
+        alert('Gagal mengirim catatan. Coba lagi nanti.');
+        }
+    } catch (error) {
+        alert('Kesalahan jaringan: ' + error.message);
+    } finally {
+        hideLoading();
+    }
+    });
+
+    // menampilkan catatan
+    const correctCode = "098"; // Kode keamanan yang hanya diketahui pemilik
+
+    // Tampilkan modal untuk memasukkan kode
+    function showCodeModal() {
+        document.getElementById('codeModal').classList.remove('hidden');
+    }
+
+    // Tutup modal kode
+    function closeCodeModal() {
+        document.getElementById('codeModal').classList.add('hidden');
+    }
+
+    // Validasi kode sebelum menampilkan catatan
+    function validateCode() {
+        const enteredCode = document.getElementById('securityCodeInput').value;
+        if (enteredCode === correctCode) {
+        closeCodeModal();
+        fetchAndShowNotes();
+        } else {
+        alert("Kode yang Anda masukkan salah!");
+        }
+    }
+
+    // Open and close modal for displaying notes
+    function openDisplayNotesModal() {
+        document.getElementById('displayNotesModal').classList.remove('hidden');
+    }
+
+    function closeDisplayNotesModal() {
+        document.getElementById('displayNotesModal').classList.add('hidden');
+    }
+
+    // Fetch notes from the spreadsheet and display them
+    async function fetchAndShowNotes() {
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzXnQIvHVyPaBlgEufVX3TPqvVnpX8RBKAd8Y0ZQobn1m3b_CaHtXoGxyOrX7j1TjTi/exec';
+        const notesContainer = document.getElementById('notesContainer');
+
+        try {
+        showLoading();
+        const response = await fetch(scriptURL);
+        const data = await response.json();
+
+        // Clear previous notes
+        notesContainer.innerHTML = '';
+
+        if (data.length > 0) {
+            data.forEach(note => {
+            const card = document.createElement('div');
+            card.className = 'bg-white p-4 border border-2 border-[#1E201E] rounded-lg';
+            card.innerHTML = `<p class="text-[#1E201E]">${note}</p>`;
+            notesContainer.appendChild(card);
+            });
+        } else {
+            notesContainer.innerHTML = '<p class="text-center text-gray-500">Belum ada catatan.</p>';
+        }
+
+        openDisplayNotesModal();
+        } catch (error) {
+        alert('Gagal mengambil catatan: ' + error.message);
+        } finally {
+        hideLoading();
+        }
+    }
+</script>
+</body>
+</html>
